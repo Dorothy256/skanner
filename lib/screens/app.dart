@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  const App({Key key}) : super(key: key);
+  App({Key key}) : super(key: key);
+
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  NavigatorState get _navigatorState => _navigatorKey.currentState;
 
   @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('skanner'),),);
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) => child,
+      );
 }
