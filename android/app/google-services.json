@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "650336146814",
+    "project_id": "skanner-e7f44",
+    "storage_bucket": "skanner-e7f44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650336146814:android:c9ff97e7a08f9d366ccf2f",
+        "android_client_info": {
+          "package_name": "ml.mobile.skanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650336146814-1md37t11qv7cilg9ki0l9qkj4g4u2lci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ml.mobile.skanner",
+            "certificate_hash": "b240267291a83d6bdbc3c42db03ff1ec334ad828"
+          }
+        },
+        {
+          "client_id": "650336146814-mtq690tu49ioqr2g81smdf9uis3pgk03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAisg7GRUiF21QrUzBDKlNa1gAN5LDb0qI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650336146814-mtq690tu49ioqr2g81smdf9uis3pgk03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
