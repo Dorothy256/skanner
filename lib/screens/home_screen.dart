@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skanner/screens/log_in_screen.dart';
 import 'package:tflite/tflite.dart';
+
+import '../blocs/authentication/authentication_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -49,7 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.exit_to_app,
                   size: 28,
                 ),
-                onPressed: () {})
+                onPressed: () {
+                  context.read<AuthenticationBloc>().add(LogOut());
+                  Navigator.of(context).pushAndRemoveUntil(
+                      LogInScreen.route(), (route) => false);
+                })
           ],
         ),
         body: _file != null
