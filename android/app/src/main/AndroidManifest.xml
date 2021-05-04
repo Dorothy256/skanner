@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ml.mobile.skanner">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="skanner"
+        android:label="Skin Skanner"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

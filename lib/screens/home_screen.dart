@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:skanner/screens/log_in_screen.dart';
 import 'package:tflite/tflite.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../blocs/authentication/authentication_bloc.dart';
+import 'log_in_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -41,17 +42,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(
-            'Skanner',
+            'Skin Skanner',
             style: TextStyle(
-                letterSpacing: 1.2, fontSize: 24, fontWeight: FontWeight.bold),
+                letterSpacing: 1.2,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
           ),
           actions: [
             IconButton(
                 icon: const Icon(
                   Icons.exit_to_app,
                   size: 28,
+                  color: Colors.black,
                 ),
                 onPressed: () {
                   context.read<AuthenticationBloc>().add(LogOut());
@@ -67,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             : const Center(child: Text('No image selected')),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.orangeAccent,
           onPressed: () {
             _getImageFromGallery();
           },
@@ -114,29 +121,75 @@ class RenderPickedImage extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Flexible(flex: 2, child: Image.file(pickedFile)),
-          Flexible(
-              child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${outputs[0]['label']}'.replaceAll(
-                    RegExp(r'[0-9]'),
-                    '',
-                  ),
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                Text('${outputs[0]['confidence']}%',
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.w500))
-              ],
-            ),
-          ))
-        ],
-      );
+  Widget build(BuildContext context) {
+    var confidence = (outputs[0]['confidence'] * 100).toString();
+    confidence = double.parse(confidence).toStringAsFixed(2);
+
+    return Column(
+      children: [
+        Flexible(flex: 2, child: Image.file(pickedFile)),
+        Flexible(
+            child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (outputs[0]['label'] == '1 positive')
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text('$confidence%',
+                                  style: const TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w500)),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text(
+                                'Positive, you have eczema',
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                'Please consult a dermatologist',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              TextButton(
+                                  onPressed: () => _launchUrl(
+                                      'https://www.unityskinclinic.com/'),
+                                  child: const Text('Unity Skin Clinic',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                      ))),
+                            ],
+                          ),
+                        ),
+                      if (outputs[0]['label'] != '1 positive')
+                        Expanded(
+                            child: Column(
+                          children: [
+                            Text('$confidence%',
+                                style: const TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w500)),
+                            const Text(
+                              "Negative, you don't have eczema",
+                              style: TextStyle(
+                                  fontSize: 28, fontWeight: FontWeight.bold),
+                            ),
+                            TextButton(
+                                onPressed: () => _launchUrl(
+                                    'https://my.clevelandclinic.org/health/diseases/9998-eczema'),
+                                child: const Text('How to prevent Eczema',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    )))
+                          ],
+                        )),
+                    ])))
+      ],
+    );
+  }
+
+  void _launchUrl(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 }

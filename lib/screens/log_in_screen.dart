@@ -26,7 +26,7 @@ class LogInScreen extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset(
-                  'assets/skanner-logo.png',
+                  'assets/skin_skanner_logo.png',
                   height: 150,
                 ),
                 const SizedBox(
